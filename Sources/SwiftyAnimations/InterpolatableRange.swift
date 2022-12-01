@@ -12,7 +12,7 @@ struct InterpolatableRange<I: Interpolatable> {
     let upperBound: I
 }
 
-infix operator ...
-func ...<I: Interpolatable>(lhs: I, rhs: I) -> InterpolatableRange<I> {
+infix operator >>>
+func >>><I: Interpolatable>(lhs: I, rhs: I) -> InterpolatableRange<I> {
     return InterpolatableRange(lowerBound: lhs, upperBound: rhs)
 }
