@@ -28,6 +28,7 @@ fileprivate class DisplayLinkRunner: NSObject {
         super.init()
         
         displayLink = CADisplayLink(target: self, selector: #selector(step))
+        displayLink?.add(to: .main, forMode: .default)
     }
     
     @objc
