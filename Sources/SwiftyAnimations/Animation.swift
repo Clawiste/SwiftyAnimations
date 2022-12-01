@@ -13,7 +13,7 @@ public class Animation {
         case finite(Int)
     }
     
-    let id: UUID
+    public let id: UUID
     let duration: TimeInterval
     let easingFunction: EasingFunction
     let repeating: Repeat
