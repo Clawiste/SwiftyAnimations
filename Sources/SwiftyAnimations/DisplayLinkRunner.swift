@@ -36,9 +36,9 @@ fileprivate class DisplayLinkRunner: NSObject {
             }
         }
         
-        displayLink = CADisplayLink(target: self, selector: #selector(step))
-        displayLink?.add(to: .main, forMode: .default)
-        displayLink?.preferredFramesPerSecond = 60
+//        displayLink = CADisplayLink(target: self, selector: #selector(step))
+//        displayLink?.add(to: .main, forMode: .default)
+//        displayLink?.preferredFramesPerSecond = 60
     }
     
     deinit {
