@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct InterpolatableRange<I: Interpolatable> {
+public struct InterpolatableRange<I: Interpolatable> {
     let lowerBound: I
     let upperBound: I
 }
 
 infix operator >>>
-func >>><I: Interpolatable>(lhs: I, rhs: I) -> InterpolatableRange<I> {
+public func >>><I: Interpolatable>(lhs: I, rhs: I) -> InterpolatableRange<I> {
     return InterpolatableRange(lowerBound: lhs, upperBound: rhs)
 }

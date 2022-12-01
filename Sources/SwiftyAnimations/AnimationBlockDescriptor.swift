@@ -14,14 +14,14 @@ public protocol AnyAnimationBlockDescriptor {
 }
 
 infix operator ~
-func ~<A, I: Interpolatable>(
+public func ~<A, I: Interpolatable>(
     lhs: ReferenceWritableKeyPath<A, I>,
     rhs: InterpolatableRange<I>
 ) -> KeypathAnimationBlockDescriptor<A> {
     return KeypathAnimationBlockDescriptor(keyPath: lhs, from: rhs.lowerBound, to: rhs.upperBound)
 }
 
-struct KeypathAnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
+public struct KeypathAnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
     let closure: (A) -> AnyAnimationBlock
     
     public init<I: Interpolatable>(keyPath: ReferenceWritableKeyPath<A, I>, from: I, to: I) {
@@ -30,15 +30,15 @@ struct KeypathAnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
         }
     }
     
-    func block(target: A) -> AnyAnimationBlock {
+    public func block(target: A) -> AnyAnimationBlock {
         return closure(target)
     }
 }
 
-struct AnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
+public struct AnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
     let closure: (A) -> AnyAnimationBlock
 
-    init(interpolator: @escaping (A, Float) -> Void) {
+    public init(interpolator: @escaping (A, Float) -> Void) {
         self.closure = { target in
             return AnimationBlock { progress in
                 interpolator(target, progress)
@@ -46,7 +46,7 @@ struct AnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
         }
     }
     
-    func block(target: A) -> AnyAnimationBlock {
+    public func block(target: A) -> AnyAnimationBlock {
         return closure(target)
     }
 }
