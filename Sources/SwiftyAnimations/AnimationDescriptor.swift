@@ -8,12 +8,12 @@
 import Foundation
 
 public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
-    let duration: TimeInterval
-    let easingFunction: EasingFunction
-    let repeating: Animation.Repeat
-    let autoreverse: Bool
-    let autoremove: Bool
-    let blockDescriptors: [AABD]
+    public let duration: TimeInterval
+    public let easingFunction: EasingFunction
+    public let repeating: Animation.Repeat
+    public let autoreverse: Bool
+    public let autoremove: Bool
+    public let blockDescriptors: [AABD]
     
     public init(
         duration: TimeInterval,
