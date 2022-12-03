@@ -19,7 +19,7 @@ public class AnimationBlock: AnyAnimationBlock {
     }
     
     public func interpolate(position: Float) {
-        self.interpolate(position: position)
+        interpolator(position)
     }
 }
 

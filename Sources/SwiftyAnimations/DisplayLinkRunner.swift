@@ -27,22 +27,8 @@ fileprivate class DisplayLinkRunner: NSObject {
         
         super.init()
         
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            if !animation.advanceAnimation(deltaTime: 0.1) {
-                self.completion()
-                
-                self.displayLink?.invalidate()
-                self.displayLink = nil
-            }
-        }
-        
-//        displayLink = CADisplayLink(target: self, selector: #selector(step))
-//        displayLink?.add(to: .main, forMode: .default)
-//        displayLink?.preferredFramesPerSecond = 60
-    }
-    
-    deinit {
-        print("----- DEINIT")
+        displayLink = CADisplayLink(target: self, selector: #selector(step))
+        displayLink?.add(to: .main, forMode: .default)
     }
     
     @objc
@@ -51,7 +37,7 @@ fileprivate class DisplayLinkRunner: NSObject {
             return
         }
         
-        if !animation.advanceAnimation(deltaTime: displayLink.duration) {
+        if animation.advanceAnimation(deltaTime: displayLink.duration) {
             self.completion()
             
             self.displayLink?.invalidate()
