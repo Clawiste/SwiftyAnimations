@@ -9,12 +9,17 @@ import Foundation
 import QuartzCore
 
 public extension Animation {
-    func start(completion: @escaping () -> Void = { () in }) {
-        DisplayLinkRunner(animation: self, completion: completion)
+    @discardableResult
+    func start(completion: @escaping () -> Void = { () in }) -> AnimationCancellable {
+        return DisplayLinkRunner(animation: self, completion: completion)
     }
 }
 
-fileprivate class DisplayLinkRunner: NSObject {
+public protocol AnimationCancellable {
+    func stop()
+}
+
+fileprivate class DisplayLinkRunner: NSObject, AnimationCancellable {
     private var displayLink: CADisplayLink?
     
     private let animation: Animation
@@ -43,5 +48,10 @@ fileprivate class DisplayLinkRunner: NSObject {
             self.displayLink?.invalidate()
             self.displayLink = nil
         }
+    }
+    
+    func stop() {
+        displayLink?.invalidate()
+        displayLink = nil
     }
 }
