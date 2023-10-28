@@ -77,7 +77,6 @@ public class Animation {
         self.autoremove = autoremove
         self.blocks = blocks
     }
-
     
     /// Advances animation
     /// - Parameter deltaTime: deltaTime passed since last call to this method

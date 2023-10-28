@@ -1,17 +1,11 @@
 //
-//  AnimationBlockDescriptor.swift
+//  KeypathAnimationBlockDescriptor.swift
+//  
 //
-//
-//  Created by Jan Prokes on 01.12.2022.
+//  Created by Jan Prokes on 27.10.2023.
 //
 
 import Foundation
-
-public protocol AnyAnimationBlockDescriptor {
-    associatedtype A
-    
-    func block(target: A) -> AnyAnimationBlock
-}
 
 infix operator ~
 public func ~<A, I: Interpolatable>(
@@ -27,22 +21,6 @@ public struct KeypathAnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
     public init<I: Interpolatable>(keyPath: ReferenceWritableKeyPath<A, I>, from: I, to: I) {
         closure = { target in
             return KeypathAnimationBlock(keyPath: keyPath, from: from, to: to, target: target)
-        }
-    }
-    
-    public func block(target: A) -> AnyAnimationBlock {
-        return closure(target)
-    }
-}
-
-public struct AnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
-    let closure: (A) -> AnyAnimationBlock
-
-    public init(interpolator: @escaping (A, Float) -> Void) {
-        self.closure = { target in
-            return AnimationBlock { progress in
-                interpolator(target, progress)
-            }
         }
     }
     
