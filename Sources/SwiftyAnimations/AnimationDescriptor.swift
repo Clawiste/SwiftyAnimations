@@ -34,3 +34,17 @@ public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
         self.blockDescriptors = blockDescriptors
     }
 }
+
+extension AnimationDescriptor {
+    func animation(target: AABD.A) -> Animation {
+        return Animation(
+            duration: duration,
+            delay: delay,
+            easingFunction: easingFunction,
+            repeating: repeating,
+            autoreverse: autoreverse,
+            autoremove: autoremove,
+            blocks: blockDescriptors.map { $0.block(target: target) }
+        )
+    }
+}

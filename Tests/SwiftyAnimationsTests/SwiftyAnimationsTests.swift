@@ -33,22 +33,41 @@ class Element {
 }
 
 final class SwiftyAnimationsTests: XCTestCase {
+    func testDelay() {
+        let element = Element(point: .zero)
+        
+        let animation = AnimationDescriptor<KeypathAnimationBlockDescriptor<Element>>(
+            duration: 10,
+            delay: 5,
+            easingFunction: EasingFunction.linear,
+            blockDescriptors: [
+                \Element.point.x ~ (0-->2)
+            ]
+        )
+        .animation(target: element)
+        
+        _ = animation.advanceAnimation(deltaTime: 5)
+        
+        XCTAssert(element.point.x == 0)
+        
+        _ = animation.advanceAnimation(deltaTime: 10)
+        
+        print(element.point.x)
+        
+        XCTAssert(element.point.x == 2)
+    }
+    
     func testKeypath() {
         let element = Element(point: .zero)
         
-        let animationDescriptor = AnimationDescriptor<KeypathAnimationBlockDescriptor<Element>>(
+        let animation = AnimationDescriptor<KeypathAnimationBlockDescriptor<Element>>(
             duration: 10,
             easingFunction: EasingFunction.linear,
             blockDescriptors: [
                 \Element.point.x ~ (0-->2)
             ]
         )
-        
-        let animation = Animation(
-            duration: animationDescriptor.duration,
-            easingFunction: animationDescriptor.easingFunction,
-            blocks: animationDescriptor.blockDescriptors.map { $0.block(target: element) }
-        )
+        .animation(target: element)
         
         _ = animation.advanceAnimation(deltaTime: 5)
         
@@ -58,7 +77,7 @@ final class SwiftyAnimationsTests: XCTestCase {
     func testKeyframe() {
         let element = Element(point: .zero)
         
-        let animationDescriptor = AnimationDescriptor<KeyframeAnimationBlockDescriptor<Element>>(
+        let animation = AnimationDescriptor<KeyframeAnimationBlockDescriptor<Element>>(
             duration: 1,
             easingFunction: EasingFunction.linear,
             blockDescriptors: [
@@ -69,12 +88,7 @@ final class SwiftyAnimationsTests: XCTestCase {
                 ]
             ]
         )
-        
-        let animation = Animation(
-            duration: animationDescriptor.duration,
-            easingFunction: animationDescriptor.easingFunction,
-            blocks: animationDescriptor.blockDescriptors.map { $0.block(target: element) }
-        )
+        .animation(target: element)
         
         _ = animation.advanceAnimation(deltaTime: 0.49)
         
