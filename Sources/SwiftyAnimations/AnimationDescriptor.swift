@@ -35,7 +35,7 @@ public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
     }
 }
 
-extension AnimationDescriptor {
+public extension AnimationDescriptor {
     func animation(target: AABD.A) -> Animation {
         return Animation(
             duration: duration,
