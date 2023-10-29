@@ -15,6 +15,7 @@ public class Animation {
     
     public let id: UUID
     let duration: TimeInterval
+    let delay: TimeInterval
     let easingFunction: EasingFunction
     let repeating: Repeat
     let autoreverse: Bool
@@ -23,46 +24,11 @@ public class Animation {
 
     private var currentDuration: TimeInterval = 0
     private var iteration: Int = 0
-
-    public init(
-        id: UUID = UUID(),
-        duration: TimeInterval,
-        easingFunction: EasingFunction,
-        repeating: Repeat = .finite(0),
-        autoreverse: Bool = false,
-        autoremove: Bool = true,
-        blocks: [AnimationBlock]
-    ) {
-        self.id = id
-        self.duration = duration
-        self.easingFunction = easingFunction
-        self.repeating = repeating
-        self.autoreverse = autoreverse
-        self.autoremove = autoremove
-        self.blocks = blocks
-    }
     
     public init(
         id: UUID = UUID(),
         duration: TimeInterval,
-        easingFunction: EasingFunction,
-        repeating: Repeat = .finite(0),
-        autoreverse: Bool = false,
-        autoremove: Bool = true,
-        block: @escaping (Float) -> Void
-    ) {
-        self.id = id
-        self.duration = duration
-        self.easingFunction = easingFunction
-        self.repeating = repeating
-        self.autoreverse = autoreverse
-        self.autoremove = autoremove
-        self.blocks = [AnimationBlock(interpolator: block)]
-    }
-    
-    public init(
-        id: UUID = UUID(),
-        duration: TimeInterval,
+        delay: TimeInterval = 0,
         easingFunction: EasingFunction,
         repeating: Repeat = .finite(0),
         autoreverse: Bool = false,
@@ -71,11 +37,32 @@ public class Animation {
     ) {
         self.id = id
         self.duration = duration
+        self.delay = delay
         self.easingFunction = easingFunction
         self.repeating = repeating
         self.autoreverse = autoreverse
         self.autoremove = autoremove
         self.blocks = blocks
+    }
+    
+    public init(
+        id: UUID = UUID(),
+        duration: TimeInterval,
+        delay: TimeInterval = 0,
+        easingFunction: EasingFunction,
+        repeating: Repeat = .finite(0),
+        autoreverse: Bool = false,
+        autoremove: Bool = true,
+        block: @escaping (Float) -> Void
+    ) {
+        self.id = id
+        self.duration = duration
+        self.delay = delay
+        self.easingFunction = easingFunction
+        self.repeating = repeating
+        self.autoreverse = autoreverse
+        self.autoremove = autoremove
+        self.blocks = [AnimationBlock(interpolator: block)]
     }
     
     /// Advances animation
@@ -85,7 +72,7 @@ public class Animation {
         currentDuration += deltaTime
 
         let isReversing = autoreverse ? iteration % 2 == 1 : false
-        let currentPosition = easingFunction.interpolate(position: Float(currentDuration / duration))
+        let currentPosition = easingFunction.interpolate(position: Float(max(0, currentDuration - delay) / duration))
         
         blocks.forEach { block in
             block.interpolate(position: isReversing ? 1 - currentPosition : currentPosition)

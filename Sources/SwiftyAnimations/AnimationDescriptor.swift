@@ -9,6 +9,7 @@ import Foundation
 
 public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
     public let duration: TimeInterval
+    public let delay: TimeInterval
     public let easingFunction: EasingFunction
     public let repeating: Animation.Repeat
     public let autoreverse: Bool
@@ -17,6 +18,7 @@ public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
     
     public init(
         duration: TimeInterval,
+        delay: TimeInterval = 0,
         easingFunction: EasingFunction,
         repeating: Animation.Repeat = .finite(0),
         autoreverse: Bool = false,
@@ -24,6 +26,7 @@ public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
         blockDescriptors: [AABD]
     ) {
         self.duration = duration
+        self.delay = delay
         self.easingFunction = easingFunction
         self.repeating = repeating
         self.autoreverse = autoreverse
