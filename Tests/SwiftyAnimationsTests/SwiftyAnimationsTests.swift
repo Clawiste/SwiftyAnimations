@@ -64,7 +64,7 @@ final class SwiftyAnimationsTests: XCTestCase {
             blockDescriptors: [
                 \Element.point.x ~ [
                     .init(position: 0.5, value: 1),
-                    .init(position: 0.75, value: 0.25),
+                    .init(position: 0.75, value: 1.5),
                     .init(position: 1, value: 2)
                 ]
             ]
@@ -76,15 +76,17 @@ final class SwiftyAnimationsTests: XCTestCase {
             blocks: animationDescriptor.blockDescriptors.map { $0.block(target: element) }
         )
         
+        _ = animation.advanceAnimation(deltaTime: 0.49)
+        
         XCTAssert(element.point.x == 0)
         
-        _ = animation.advanceAnimation(deltaTime: 0.5)
+        _ = animation.advanceAnimation(deltaTime: 0.01)
         
         XCTAssert(element.point.x == 1)
-     
+        
         _ = animation.advanceAnimation(deltaTime: 0.25)
         
-        XCTAssert(element.point.x == 0.25)
+        XCTAssert(element.point.x == 1.5)
         
         _ = animation.advanceAnimation(deltaTime: 0.25)
         

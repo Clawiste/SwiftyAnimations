@@ -53,20 +53,18 @@ public class KeyframeAnimationBlock<A, I: Interpolatable>: AnyAnimationBlock {
     }
     
     public func interpolate(position: Float) {
-        let start = initialValue ?? target[keyPath: keyPath]
-        
-        if initialValue == nil {
-            initialValue = start
-        }
-        
         if keyframes.count > 1 {
-            let initialKeyframe = Keyframe(position: 0, value: start)
-            
-            guard let currentKeyframeIndex = (keyframes + [initialKeyframe]).enumerated()
+            guard let currentKeyframeIndex = keyframes.enumerated()
                 .first(where: { index, keyframe in
-                    let nextKeyframe = keyframes[index + 1]
-                    
-                    return keyframe.position <= position && nextKeyframe.position >= position
+                    let nextKeyframeIndex = index + 1
+                                        
+                    if keyframes.count > nextKeyframeIndex {
+                        let nextKeyframe = keyframes[index + 1]
+                        
+                        return keyframe.position <= position && nextKeyframe.position >= position
+                    } else {
+                        return false
+                    }
                 })?
                 .offset
             else {
@@ -76,12 +74,9 @@ public class KeyframeAnimationBlock<A, I: Interpolatable>: AnyAnimationBlock {
             let currentKeyframe = keyframes[currentKeyframeIndex]
             let nextKeyframe = keyframes[currentKeyframeIndex + 1]
 
-            let mappedPosition = (position - currentKeyframe.position)
-                / (nextKeyframe.position - currentKeyframe.position)
+            let mappedPosition = (position - currentKeyframe.position) / (nextKeyframe.position - currentKeyframe.position)
             
             target[keyPath: keyPath] = nextKeyframe.interpolate(position: mappedPosition, start: currentKeyframe.endValue)
-        } else if let keyframe = keyframes.first {
-            target[keyPath: keyPath] = keyframe.interpolate(position: position, start: start)
         }
     }
 }

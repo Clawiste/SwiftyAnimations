@@ -12,21 +12,13 @@ public class KeypathAnimationBlock<A, I>: AnyAnimationBlock {
     
     public init(
         keyPath: ReferenceWritableKeyPath<A, I>,
-        from: I? = nil,
+        from: I,
         to: I,
         target: A
-    ) where I: Interpolatable {
-        var initialValue: I?
-        
+    ) where I: Interpolatable {        
         interpolator = { position in
-            let start = from ?? initialValue ?? target[keyPath: keyPath]
-            
-            if initialValue == nil {
-                initialValue = start
-            }
-            
             target[keyPath: keyPath] = I.interpolate(
-                start: start,
+                start: from,
                 end: to,
                 position: position
             )
