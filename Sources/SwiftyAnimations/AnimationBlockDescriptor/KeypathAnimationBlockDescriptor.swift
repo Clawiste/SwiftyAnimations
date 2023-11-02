@@ -7,14 +7,6 @@
 
 import Foundation
 
-infix operator ~
-public func ~<A, I: Interpolatable>(
-    lhs: ReferenceWritableKeyPath<A, I>,
-    rhs: InterpolatableRange<I>
-) -> KeypathAnimationBlockDescriptor<A> {
-    return KeypathAnimationBlockDescriptor(keyPath: lhs, from: rhs.lowerBound, to: rhs.upperBound)
-}
-
 public struct KeypathAnimationBlockDescriptor<A>: AnyAnimationBlockDescriptor {
     let closure: (A) -> AnyAnimationBlock
     

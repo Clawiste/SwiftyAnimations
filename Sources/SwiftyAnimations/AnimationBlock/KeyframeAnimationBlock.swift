@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Accelerate
 
 public class KeyframeAnimationBlock<A, I: Interpolatable>: AnyAnimationBlock {
     public struct Keyframe {
