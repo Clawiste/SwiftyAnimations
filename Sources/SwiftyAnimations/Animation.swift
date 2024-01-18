@@ -7,13 +7,15 @@
 
 import Foundation
 
-public class Animation {
+public class Animation: Identifiable {
+    public typealias ID = UUID
+    
     public enum Repeat {
         case infinite
         case finite(Int)
     }
     
-    public let id: UUID
+    public let id: ID
     let duration: TimeInterval
     let delay: TimeInterval
     let easingFunction: EasingFunction

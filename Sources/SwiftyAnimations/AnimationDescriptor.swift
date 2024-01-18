@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
+public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor>: Identifiable {
+    public let id: Animation.ID
     public let duration: TimeInterval
     public let delay: TimeInterval
     public let easingFunction: EasingFunction
@@ -17,6 +18,7 @@ public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
     public let blockDescriptors: [AABD]
     
     public init(
+        id: Animation.ID = UUID(),
         duration: TimeInterval,
         delay: TimeInterval = 0,
         easingFunction: EasingFunction,
@@ -25,6 +27,7 @@ public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
         autoremove: Bool = true,
         blockDescriptors: [AABD]
     ) {
+        self.id = id
         self.duration = duration
         self.delay = delay
         self.easingFunction = easingFunction
@@ -38,6 +41,7 @@ public struct AnimationDescriptor<AABD: AnyAnimationBlockDescriptor> {
 public extension AnimationDescriptor {
     func animation(target: AABD.A) -> Animation {
         return Animation(
+            id: id,
             duration: duration,
             delay: delay,
             easingFunction: easingFunction,
